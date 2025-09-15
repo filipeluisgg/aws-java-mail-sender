@@ -11,5 +11,3 @@ public class EmailApplication
     }
 }
 
-//Apenas ASSISTIR a última aula (aula 13) e implementar o envio de email sozinho com AWS SES!
-

@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class UserController {
+public class UserController
+{
     final UserService userService;
 
     public UserController(UserService userService) {
@@ -25,7 +26,7 @@ public class UserController {
     public ResponseEntity<UserModel> createUser(@RequestBody UserDto userDto) {
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.saveUser(userModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userModel));
     }
 
     @GetMapping("list/users")

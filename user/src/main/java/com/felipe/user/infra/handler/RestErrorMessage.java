@@ -1,4 +1,4 @@
-package com.felipe.user.infra;
+package com.felipe.user.infra.handler;
 
 import lombok.Builder;
 

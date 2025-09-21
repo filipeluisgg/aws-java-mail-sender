@@ -2,37 +2,45 @@ package com.felipe.user.controller;
 
 import com.felipe.user.domain.UserModel;
 import com.felipe.user.dto.UserDto;
+import com.felipe.user.mapper.UserMapper;
 import com.felipe.user.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController
 {
-    final UserService userService;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<UserModel> createUser(@RequestBody UserDto userDto) {
-        var userModel = new UserModel();
-        BeanUtils.copyProperties(userDto, userModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userModel));
+
+    @GetMapping("/{name}")
+    public ResponseEntity<UserDto> getUserByName(@PathVariable String name) {
+        UserModel userModel = userService.findOneUserByName(name);
+        return ResponseEntity.ok(userMapper.toDto(userModel));
     }
 
-    @GetMapping("list/users")
-    public ResponseEntity<List<UserModel>> getAllUsers() {
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+        UserModel newUser = userService.createUser(userDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userMapper.toDto(newUser));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserModel> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(userMapper.toDtoList(users));
     }
 }
 

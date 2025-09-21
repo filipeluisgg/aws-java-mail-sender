@@ -1,14 +1,16 @@
 package com.felipe.user.service;
 
 import com.felipe.user.domain.UserModel;
-import com.felipe.user.infra.exceptions.ValidationError;
+import com.felipe.user.dto.UserDto;
+import com.felipe.user.infra.exceptions.NotFoundException;
+import com.felipe.user.infra.exceptions.ValidationException;
 import com.felipe.user.producer.UserProducer;
 import com.felipe.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class UserService
@@ -26,31 +28,40 @@ public class UserService
         return userRepository.findAll();
     }
 
+    public UserModel findOneUserByName(String name)
+    {
+        return userRepository.findByName(name)
+                .orElseThrow(() -> new NotFoundException(
+                        "O nome informado não foi encontrado no sistema.",
+                        "Verifique se o username está digitado corretamente."
+                ));
+    }
+
     @Transactional
-    public UserModel createUser(UserModel userModel) {
-        validateUniqueUsername(userModel.getName());
-        validateUniqueEmail(userModel.getEmail());
+    public UserModel createUser(UserDto userDto) {
+        validateUniqueName(userDto.name());
+        validateUniqueEmail(userDto.email());
+
+        var userModel = new UserModel(userDto.name(), userDto.email());
 
         userModel = userRepository.save(userModel);
         userProducer.publishEvent(userModel);
         return userModel;
     }
 
-    private void validateUniqueUsername(String username) {
-        if (userRepository.existsByName(username)) {
-            throw ValidationError.builder()
-                    .message("O username informado já está sendo utilizado.")
-                    .action("Utilize outro username para realizar esta operação.")
-                    .build();
+    private void validateUniqueName(String name) {
+        if (userRepository.existsByName(name)) {
+            throw new ValidationException(
+                    "O nome informado já está sendo utilizado.",
+                    "Utilize outro nome para realizar esta operação.");
         }
     }
 
     private void validateUniqueEmail(String email) {
         if (userRepository.existsByEmail(email)) {
-            throw ValidationError.builder()
-                    .message("O email informado já está sendo utilizado.")
-                    .action("Utilize outro email para realizar esta operação.")
-                    .build();
+            throw new ValidationException(
+                    "O email informado já está sendo utilizado.",
+                    "Utilize outro email para realizar esta operação.");
         }
     }
 }

@@ -1,16 +1,13 @@
 package com.felipe.user.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
-@Data
 @Table(name = "TB_USERS")
 public class UserModel
 {
@@ -23,5 +20,11 @@ public class UserModel
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+
+    public UserModel(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }
 

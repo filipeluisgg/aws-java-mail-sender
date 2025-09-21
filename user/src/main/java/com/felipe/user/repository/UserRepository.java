@@ -5,4 +5,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface UserRepository extends JpaRepository<UserModel, UUID> { }
+public interface UserRepository extends JpaRepository<UserModel, UUID>
+{
+    /**
+     * Optimally check if a user with the specified name already exists.
+     * @param username The name of the user to be verified.
+     * @return true if a user with the specified name already exists, false otherwise.
+     */
+    boolean existsByName(String username);
+
+    /**
+     * Optimally check if a user with the specified email already exists.
+     * @param email The email to be verified.
+     * @return true if a user with the specified email already exists, false otherwise.
+     */
+    boolean existsByEmail(String email);
+}
+

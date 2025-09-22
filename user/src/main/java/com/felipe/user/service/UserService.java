@@ -2,8 +2,8 @@ package com.felipe.user.service;
 
 import com.felipe.user.domain.UserModel;
 import com.felipe.user.dto.UserDto;
-import com.felipe.user.infra.exceptions.NotFoundException;
-import com.felipe.user.infra.exceptions.ValidationException;
+import com.felipe.user.infra.exception.NotFoundException;
+import com.felipe.user.infra.exception.ValidationException;
 import com.felipe.user.producer.UserProducer;
 import com.felipe.user.repository.UserRepository;
 import jakarta.transaction.Transactional;

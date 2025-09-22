@@ -1,4 +1,4 @@
-package com.felipe.user.infra.exceptions;
+package com.felipe.user.infra.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

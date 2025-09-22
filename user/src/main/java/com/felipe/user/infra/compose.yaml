@@ -15,5 +15,3 @@ services:
 volumes:
   pgdata:
 
-#  psql -U <nome_do_usuário> -d <nome_do_banco_de_dados>
-#  psql -U postgres -d user-db

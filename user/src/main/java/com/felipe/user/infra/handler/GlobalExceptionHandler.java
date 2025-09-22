@@ -1,6 +1,6 @@
 package com.felipe.user.infra.handler;
 
-import com.felipe.user.infra.exceptions.ValidationException;
+import com.felipe.user.infra.exception.ValidationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

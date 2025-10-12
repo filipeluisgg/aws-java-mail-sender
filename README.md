@@ -87,7 +87,7 @@ Antes de começar, certifique-se de que você tem os seguintes softwares instala
 
 
 
-## Fluxode Execução
+## Fluxo de Execução
 
 O fluxo principal da aplicação ocorre da seguinte maneira:
 
